@@ -1,7 +1,7 @@
 console.log("script working")
 
+//  The String Object
 const Meat = "chicken"
-
 
 console.log("Meat.__proto__: ", Meat.__proto__)
 
@@ -12,6 +12,27 @@ console.log("Meat.at(2): ", Meat.at(2))
 console.log("// charAt()")
 
 console.log("Meat.charAt(): ", Meat.charAt(2))
+
+console.log("String.fromCharCode(189): ", String.fromCharCode(189))
+
+
+// Will return only the first half of a surrogate pair (emojis/special symbols)
+console.log("Meat.charCodeAt(2): ", Meat.charCodeAt(2))
+// Will properly handle characters outside the Basic Multilingual Plane (meaning emojis/special symbols)
+console.log("Meat.codePointAt(2): ", Meat.codePointAt(2))
+
+
+console.log("Meat.concat(' ', 'tenders')", Meat.concat(' ', 'tenders'))
+
+console.log("Meat.endsWith('at'): ", Meat.endsWith('at'))
+
+console.log("Meat.endsWith('en'): ", Meat.endsWith('en'))
+
+console.log("Meat.includes('ck'): ", Meat.includes('ck'))
+
+console.log("Meat.indexOf('ck'): ", Meat.indexOf('ck'))
+console.log("Meat.indexOf('cki'): ", Meat.indexOf('cki'))
+
 
 ///
 //// Classes
@@ -30,8 +51,6 @@ class MenuItem {
     let tax = 0.1 * this.price;
     return tax;
   }
-
-
 }
 
 
@@ -88,7 +107,6 @@ function outerFunction() {
 outerFunction()
 
 
-// let pig = "oink"
 
 
 function outerFunction() {
@@ -111,7 +129,7 @@ const myClosure = outerFunction()
 
 myClosure();
 
-
+/*
 function createCounter() {
   let count = 0;
 
@@ -131,44 +149,45 @@ console.log(counter())
 counter()
 console.log(counter())
 
-let stateVar = 0;
-
-// metaprogramming along with closures to create state
-// create a function that will have a enclosed function which
-// performs the state operation in an encapsulated way
-// without needing a function passed in so that the updates can
-// be performed without accessing a new instance of that function
-// when calling the outer function
-
-function createStateVar() {
-  function alterStateVar() {
-    return stateVar++
-  }
-
-  return alterStateVar()
-}
-
-
-console.log(createStateVar())
-console.log(createStateVar())
-
-
-
-// function that creates a new function with the initial value of the state variable
-// as well the ability to perform any of the functions peformed when accessing the state variables
-
-
-
+*/
 
 class Page {
-  constructor(state) {
-    this.state = state
+  constructor() {
+    this.state = {
+      buttonClicked: false,
+    }
   }
 
-  render() {
+  static returnClass() {
+    console.log("Page")
+  }
 
+  clickButton() {
+    let buttonClicked = false;
+
+    return function() {
+      buttonClicked = !buttonClicked
+      return this.render({ ...this.state, buttonClicked: buttonClicked })
+    }
+  }
+
+  clickaroo = this.clickButton()
+
+  render(state) {
+    let element = document.getElementById("click-me-button")
+    if (state.buttonClicked) {
+      element.style.backgroundColor = 'blue'
+    } else {
+      element.style.backgroundColor = "green"
+    }
   }
 }
+
+const myPage = new Page()
+
+
+
+
 
 
 
