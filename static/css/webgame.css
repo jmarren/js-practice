@@ -1,14 +1,12 @@
-#moveable-block {
-  width: 10px;
-  height: 10px;
-  background-color: blue;
-  position: absolute;
+:root {
+  --arrow-rotation: 0deg;
 }
 
+
 #game-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  /* justify-content: center; */
+  /* align-items: center; */
   border: 2px solid black;
   width:500px;
   height: 500px;
@@ -18,7 +16,10 @@
    display: flex;
    flex-direction: column;
    align-items: center;
-   transform: translateY(60px);
+   transform: rotate(var(--arrow-rotation)) translateY(-60px);
+   position: absolute;
+   border: 2px solid black;
+
  }
 
 .arrow-part {
@@ -28,7 +29,7 @@
 #arrow-tip {
   width: 20px;
   height: 20px;
-  clip-path: polygon(0 0, 100% 0, 50% 100%, 0 0);
+  clip-path: polygon(0 100%, 100% 100%, 50% 0, 0 100%);
 }
 
 #arrow-length {
@@ -36,6 +37,3 @@
   height: 100px;
 }
 
-#arrow-container {
-  border: 2px solid black;
-}
