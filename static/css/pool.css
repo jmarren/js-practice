@@ -1,0 +1,137 @@
+:root {
+  --arrow-rotation: 0deg;
+  --arrow-x: 100;
+  --arrow-y: 100;
+}
+
+
+#game-container {
+  display: block;
+  border: 2px solid black;
+  width:500px;
+  height: 500px;
+  background-color: seagreen;
+  border-radius: 20px;
+}
+
+
+.ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid black;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.stripe {
+  overflow: hidden;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+}
+
+.stripe > .stripe-div {
+  height: 15px;
+  width: 100%;
+}
+
+#ball-0 {
+  background-color: white;
+}
+
+#ball-1{
+  background-color: yellow;
+}
+
+#ball-2{
+  background-color: blue;
+}
+
+#ball-3{
+  background-color: red;
+}
+
+#ball-4{
+  background-color: purple;
+}
+
+#ball-5{
+  background-color: orange;
+}
+
+#ball-6{
+  background-color: green;
+}
+
+#ball-7{
+  background-color: maroon;
+}
+
+#ball-8{
+  background-color: black;
+}
+
+.stripe-div {
+  border: 0.5px solid gray;
+}
+
+
+#ball-9 > .stripe-div {
+  background-color: yellow;
+}
+
+#ball-10 > .stripe-div {
+  background-color: blue;
+}
+
+#ball-11 > .stripe-div {
+  background-color: red;
+}
+
+#ball-12 > .stripe-div {
+  background-color: purple;
+}
+
+#ball-13 > .stripe-div {
+  background-color: orange;
+}
+
+#ball-14 > .stripe-div {
+  background-color: green;
+}
+
+#ball-15 > .stripe-div {
+  background-color: maroon;
+}
+
+#cue-container {
+  position: absolute;
+}
+
+#cue {
+  position: absolute;
+  width: 10px;
+  height: 250px;
+  border: 1px solid gray;
+  background-color: brown;
+  clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%, 25% 0);
+  flex-direction: column;
+  justify-content: space-between;
+  display: flex;
+  overflow: hidden;
+}
+
+#cue > #handle {
+    background-color: sienna;
+    height: 75px;
+    width: 100%;
+}
+#cue > #tip {
+  background-color: black;
+  height: 10px;
+  width: 100%;
+}
+
+
+
