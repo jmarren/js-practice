@@ -28,6 +28,7 @@ const BALLPOSITIONS = [
   { x: GAMECENTERX + (BALLDIAMETER / 2), y: TOPROWY + 3 * BALLDIAMETER * (0.88) },
   { x: GAMECENTERX, y: TOPROWY + 4 * BALLDIAMETER * 0.88 },
 ]
+const cueHit = new Event("cueHit")
 
 
 window.onload = function() {
@@ -65,8 +66,6 @@ window.onload = function() {
         ball.Init()
         this.ballInstances.push(ball)
       }
-
-
       window.addEventListener("mousemove", (e) => {
         if (this.state === 0) {
           this.ballInstances[0].Move(e)
@@ -86,7 +85,7 @@ window.onload = function() {
         if (this.state === 1) {
           this.cueInstance.windupInterval = setInterval(() => {
             this.cueInstance.WindUp()
-          }, 100)
+          }, 10)
           this.state = 2
         }
       })
@@ -94,7 +93,12 @@ window.onload = function() {
         if (this.state === 2) {
           console.log("up!")
           this.cueInstance.ClearWindup()
+          this.cueInstance.Shoot()
         }
+      })
+      window.addEventListener("cueHit", (e) => {
+        console.log(e)
+        this.ballInstances[0].Hit(e.details.speed, e.details.angle)
       })
     }
   }
@@ -154,9 +158,32 @@ window.onload = function() {
       console.log("windupInterval: ", this.windupInterval)
       console.log("windup.interval: ", this.windup.interval)
       console.log("windup.elapsed: ", this.windup.elapsed)
-      this.windup.elapsed += 0.1
-      this.innerTransform.y = (60 * this.windup.elapsed - 5.8) / (this.windup.elapsed + 1)
+      this.windup.elapsed += 1
+      this.innerTransform.y = (1.2 * this.windup.elapsed - 1) / (0.01 * this.windup.elapsed + 1)
       this.#render()
+    }
+    Shoot() {
+      let shootKeyframe = document.createElement('style')
+      shootKeyframe.innerHTML = `
+@keyframes shoot {
+    0% {
+        transform: translateY(${this.innerTransform.y}px);
+    }
+    100% { 
+transform: translateY(${-1 * this.innerTransform.y}px);
+    }
+  }
+`
+      document.head.appendChild(shootKeyframe)
+      this.innerDomElement.style.animation = "shoot 0.2s ease-in-out"
+      this.innerDomElement.style.animationFillMode = "forwards"
+      setTimeout(() => {
+        cueHit.details = {
+          speed: this.innerTransform.y,
+          angle: this.outerTransform.theta,
+        }
+        window.dispatchEvent(cueHit)
+      }, 100)
     }
 
     Move(e) {
@@ -181,9 +208,21 @@ window.onload = function() {
         x: positionX,
         y: positionY,
       }
+      this.speed = 0
+
     }
     get getPosition() {
       return this.position
+    }
+    Hit(speed, angle) {
+      this.speed = speed;
+      this.theta = angle
+      setInterval(() => {
+        this.position.x = this.position.x + this.speed * Math.sin(this.theta)
+        this.position.y = this.position.y - this.speed * Math.cos(this.theta)
+        this.speed = Math.pow(this.speed, 0.97)
+        this.#render()
+      }, 10)
     }
     Move(e) {
       this.position.x = e.clientX - BALLRADIUS

@@ -29,10 +29,11 @@
   display: flex;
   flex-direction: center;
   align-items: center;
+  background-color: white;
 }
 
 .stripe > .stripe-div {
-  height: 15px;
+  height: 10px;
   width: 100%;
 }
 
