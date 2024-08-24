@@ -29,3 +29,4 @@ export const BALLPOSITIONS = [
 ]
 
 export const cueHit = new Event("cueHit")
+export const ballMove = new Event("ballmove")

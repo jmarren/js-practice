@@ -1,4 +1,4 @@
-import { BALLRADIUS } from "./constants.js"
+import { BALLRADIUS, ballMove } from "./constants.js"
 class Ball {
   constructor(number, positionX, positionY) {
     this.number = number
@@ -13,6 +13,10 @@ class Ball {
   get getPosition() {
     return this.position
   }
+  TurnPink() {
+    this.domElement.style.backgroundColor = "pink"
+  }
+
   Hit(speed, angle) {
     this.speed = speed;
     this.theta = angle
@@ -23,9 +27,13 @@ class Ball {
       this.#render()
     }, 10)
   }
-  Move(e) {
+  UserMoveWhiteball(e) {
     this.position.x = e.clientX - BALLRADIUS
     this.position.y = e.clientY - BALLRADIUS
+    ballMove.details = {
+      ballId: 0
+    }
+    window.dispatchEvent(ballMove)
     this.#render()
   }
   Init() {
@@ -33,8 +41,16 @@ class Ball {
     this.domElement.style.top = `${this.position.y}px`
   }
   #render() {
-    this.domElement.style.left = `${this.position.x}px`
-    this.domElement.style.top = `${this.position.y}px`
+    const newLeft = `${this.position.x}px`
+    const newTop = `${this.position.y}px`
+    if (this.domElement.style.left !== newLeft || this.domElement.style.top !== newTop) {
+      this.domElement.style.left = newLeft
+      this.domElement.style.top = newTop
+      ballMove.details = {
+        ballId: this.number
+      }
+      window.dispatchEvent(ballMove)
+    }
   }
 }
 
