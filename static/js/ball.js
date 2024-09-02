@@ -7,11 +7,15 @@ class Ball {
       x: positionX,
       y: positionY,
     }
+    this.theta = 0
     this.speed = 0
-
   }
+
   get getPosition() {
     return this.position
+  }
+  get getSpeed() {
+    return this.speed
   }
   TurnPink() {
     this.domElement.style.backgroundColor = "pink"
@@ -20,27 +24,21 @@ class Ball {
   Hit(speed, angle) {
     this.speed = speed;
     this.theta = angle
-    setInterval(() => {
-      this.position.x = this.position.x + this.speed * Math.sin(this.theta)
-      this.position.y = this.position.y - this.speed * Math.cos(this.theta)
-      this.speed = Math.pow(this.speed, 0.97)
-      this.#render()
-    }, 10)
   }
   UserMoveWhiteball(e) {
     this.position.x = e.clientX - BALLRADIUS
     this.position.y = e.clientY - BALLRADIUS
-    ballMove.details = {
-      ballId: 0
-    }
-    window.dispatchEvent(ballMove)
-    this.#render()
+    this.render()
   }
   Init() {
     this.domElement.style.left = `${this.position.x}px`
     this.domElement.style.top = `${this.position.y}px`
   }
-  #render() {
+  render() {
+    const deltaDistance = this.speed / 10
+    this.position.x = this.position.x + deltaDistance * Math.sin(this.theta)
+    this.position.y = this.position.y - deltaDistance * Math.cos(this.theta)
+    this.speed = Math.pow(this.speed, 0.98)
     const newLeft = `${this.position.x}px`
     const newTop = `${this.position.y}px`
     if (this.domElement.style.left !== newLeft || this.domElement.style.top !== newTop) {

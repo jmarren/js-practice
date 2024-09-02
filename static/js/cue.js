@@ -42,23 +42,21 @@ export default class Cue {
       theta: 0,
     }
 
-    this.#render()
+    // this.render()
   }
   Rotate(e) {
     const adjacent = e.clientY - this.position.y
     const opposite = e.clientX - this.position.x
     this.outerTransform.theta = -1 * Math.atan2(opposite, adjacent)
-    this.#render()
+    this.render()
   }
 
   WindUp() {
     this.windup.interval = setInterval(() => {
-      // console.log("windupInterval: ", this.windupInterval)
-      // console.log("windup.interval: ", this.windup.interval)
-      // console.log("windup.elapsed: ", this.windup.elapsed)
       this.windup.elapsed += 1
       this.innerTransform.y = (1.2 * this.windup.elapsed - 1) / (0.01 * this.windup.elapsed + 1)
-      this.#render()
+      this.speed = (this.innerTransform.y * 2) / 0.3
+      this.render()
     }, 10)
   }
   Shoot() {
@@ -78,7 +76,7 @@ transform: translateY(${-1 * this.innerTransform.y}px);
     this.innerDomElement.style.animationFillMode = "forwards"
     setTimeout(() => {
       cueHit.details = {
-        speed: this.innerTransform.y,
+        speed: this.speed,
         angle: this.outerTransform.theta,
       }
       window.dispatchEvent(cueHit)
@@ -88,9 +86,9 @@ transform: translateY(${-1 * this.innerTransform.y}px);
   Move(e) {
     this.position.x = e.clientX - BALLRADIUS
     this.position.y = e.clientY - BALLRADIUS
-    this.#render()
+    this.render()
   }
-  #render() {
+  render() {
     this.outerDomElement.style.left = `${this.position.x}px`
     this.outerDomElement.style.top = `${this.position.y}px`
     this.outerDomElement.style.transform = `translateX(${this.outerTransform.x}px) translateY(${this.outerTransform.y}px) rotate(${this.outerTransform.theta}rad) `
