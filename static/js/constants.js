@@ -1,8 +1,8 @@
-const MARGINLEFT = 8
-const MARGINTOP = 26
+export const MARGINLEFT = 8
+export const MARGINTOP = 26
 const CUEWIDTH = 10
-const GAMEWIDTH = 500
-const GAMEHEIGHT = 500
+export const GAMEWIDTH = 500
+export const GAMEHEIGHT = 500
 const TOPROWY = MARGINTOP + GAMEHEIGHT / 4
 export const BALLDIAMETER = 20
 export const BALLRADIUS = BALLDIAMETER / 2

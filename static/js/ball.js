@@ -1,4 +1,4 @@
-import { BALLRADIUS, ballMove } from "./constants.js"
+import { BALLRADIUS, MARGINTOP, MARGINLEFT, GAMEWIDTH, GAMEHEIGHT, ballMove } from "./constants.js"
 class Ball {
   constructor(number, positionX, positionY) {
     this.number = number
@@ -20,10 +20,30 @@ class Ball {
   TurnPink() {
     this.domElement.style.backgroundColor = "pink"
   }
+  //
+  HitWall(wall) {
+    switch (wall) {
+      case "TOP":
+        this.theta = Math.PI - this.theta;
+        break;
+      case "BOTTOM":
+        this.theta = Math.PI - this.theta;
+        break;
+      case "LEFT":
+        this.theta = -1 * this.theta;
+        break;
+      case "RIGHT":
+        this.theta = -1 * this.theta;
+        break;
+      default:
+        return;
+    }
+  }
 
   Hit(speed, angle) {
     this.speed = speed;
-    this.theta = angle
+    this.theta = angle;
+    console.log("angle:", (180 / Math.PI) * angle);
   }
   UserMoveWhiteball(e) {
     this.position.x = e.clientX - BALLRADIUS
@@ -38,7 +58,17 @@ class Ball {
     const deltaDistance = this.speed / 10
     this.position.x = this.position.x + deltaDistance * Math.sin(this.theta)
     this.position.y = this.position.y - deltaDistance * Math.cos(this.theta)
-    this.speed = Math.pow(this.speed, 0.98)
+    if (this.speed >= 0.05) {
+      this.speed = this.speed - 0.3;
+    } else {
+      this.speed = 0;
+    }
+
+    if (this.position.y <= MARGINTOP) this.HitWall("TOP");
+    if (this.position.y >= GAMEHEIGHT) this.HitWall("BOTTOM");
+    if (this.position.x <= MARGINLEFT) this.HitWall("LEFT");
+    if (this.position.x >= GAMEWIDTH) this.HitWall("RIGHT");
+    // this.speed = Math.pow(this.speed, 0.98)
     const newLeft = `${this.position.x}px`
     const newTop = `${this.position.y}px`
     if (this.domElement.style.left !== newLeft || this.domElement.style.top !== newTop) {

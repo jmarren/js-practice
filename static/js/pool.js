@@ -20,6 +20,8 @@ class Game {
     this.renderItems = new Set()
   }
 
+
+
   get getState() {
     switch (this.state) {
       case 0:
@@ -93,7 +95,7 @@ class Game {
       for (let item of this.renderItems.keys()) {
         item.render()
       }
-    }, 10)
+    }, 1)
   }
 
 
